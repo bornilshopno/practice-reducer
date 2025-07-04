@@ -54,8 +54,9 @@ const Reducer = () => {
                             value={userInfo.password}
                             onChange={handleOnChange}
                         />
-                        <button className="btn btn-neutral mt-4">Login</button>
+                        <button className="btn btn-neutral mt-4">Submit</button>
                     </form >
+                        <button onClick={()=>{}}className="btn btn-neutral mt-4">Reset</button>
                 </div>
 
                 <div>
