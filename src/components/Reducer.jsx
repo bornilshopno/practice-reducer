@@ -3,11 +3,7 @@ import React, { useReducer } from 'react';
 const Reducer = () => {
     const initialState = { name: "", email: "", address: "" }
 
-    //* Reducer action
-    //* {
-    //* type:"FIELD_UPDATE";
-    //* payload:{field:"name"; value:"PHero"}
-    //* }
+
     const reducer = (state, action) => { 
         switch (action.type) {
             case "FIELD_UPDATE":
