@@ -4,32 +4,49 @@ const Reducer = () => {
     const initialState = { name: "", email: "", address: "" }
 
 
-    const reducer = (state, action) => { 
+    const reducer = (state, action) => {
         switch (action.type) {
             case "FIELD_UPDATE":
-                {return {...state, [action.payload.field]:action.payload.value}}
-                        
-            default:
-                state;
-        }
-     };
+                { return { ...state, [action.payload.field]: action.payload.value } }
 
-     const handleOnChange=(e)=>{
+            case "CLEAR":
+                { return { ...state, [action.payload.field]: "" } }
+
+            case "RESET":
+                { return initialState }
+
+            default:
+                return state;
+        }
+    };
+
+    const [state, dispatch] = useReducer(reducer, initialState)
+    console.log(state)
+    const handleOnChange = (e) => {
+        // e.preventDefault(); onChange doesnt need it 
         dispatch({
-            type:"FIELD_UPDATE",
+            type: "FIELD_UPDATE",
             payload: {
                 field: e.target.name,
-                value:e.target.value
+                value: e.target.value
             }
         })
-     }
+    }
+
+    const handleClear = ( name) => {
+        dispatch({
+            type: "CLEAR",
+            payload: {
+                field: name
+            }
+        })
+    }
 
     const handleSubmit = (e) => {
-        e.prevent.default();
+        e.preventdefault();
     }
 
 
-    const [userInfo, dispatch] = useReducer(reducer, initialState)
     return (
         <div className="p-10">
             <div className="card bg-base-100 w-full  shrink-0 shadow-2xl flex-row justify-between items-center">
@@ -37,28 +54,33 @@ const Reducer = () => {
                     <form onSubmit={handleSubmit} className="fieldset">
                         <label className="label">Name</label>
                         <input name="name" type="text" className="input" placeholder="Name"
-                            value={userInfo.name}
+                            value={state.name}
                             onChange={handleOnChange}
                         />
+                        <button type="button" onClick={() => handleClear("name")}>Clear</button>
                         <label className="label">Email</label>
                         <input name="email" type="text" className="input" placeholder="Email"
-                            value={userInfo.email}
+                            value={state.email}
                             onChange={handleOnChange}
                         />
+                        <button type="button" onClick={() => handleClear("email")}>Clear</button>
+
                         <label className="label">Address</label>
-                        <input name="password" type="text" className="input" placeholder="Password"
-                            value={userInfo.password}
+                        <input name="address" type="text" className="input" placeholder="Address"
+                            value={state.address}
                             onChange={handleOnChange}
                         />
+                        <button type="button" onClick={() => handleClear("address")}>Clear</button>
+
+                        <button type="button" onClick={() => { dispatch({ type: "RESET" }) }} className="btn btn-neutral mt-4">Reset</button>
                         <button className="btn btn-neutral mt-4">Submit</button>
                     </form >
-                        <button onClick={()=>{}}className="btn btn-neutral mt-4">Reset</button>
                 </div>
 
                 <div>
-                    <p>Name: {userInfo.name}</p>
-                    <p>Email: {userInfo.email}</p>
-                    <p>Address: {userInfo.password}</p>
+                    <p>Name: {state.name}</p>
+                    <p>Email: {state.email}</p>
+                    <p>Address: {state.address}</p>
                 </div>
             </div>
         </div>
